@@ -5,13 +5,13 @@ import re
 import mimetypes
 from pythonbrew.util import makedirs, symlink, Package, is_url, Link,\
     unlink, is_html, Subprocess, rm_r,\
-    is_python25, is_python24, is_python26,\
+    is_python25, is_python24, is_python26, is_python27,\
     unpack_downloadfile, is_archive_file, path_to_fileurl, is_file,\
     fileurl_to_path
 from pythonbrew.define import PATH_BUILD, PATH_DISTS, PATH_PYTHONS,\
     ROOT, PATH_LOG, DISTRIBUTE_SETUP_DLSITE,\
     PATH_PATCHES_MACOSX_PYTHON25, PATH_PATCHES_MACOSX_PYTHON24,\
-    PATH_PATCHES_MACOSX_PYTHON26
+    PATH_PATCHES_MACOSX_PYTHON26, PATH_PATCHES_MACOSX_PYTHON27
 from pythonbrew.downloader import get_python_version_url, Downloader,\
     get_headerinfo_from_url
 from pythonbrew.log import logger
@@ -238,6 +238,9 @@ class PythonInstallerMacOSX(PythonInstaller):
                            'patch-setup_no_tkinter.py.diff']
                 eds = {'_localemodule.c.ed': 'Modules/_localemodule.c',
                        'locale.py.ed': 'Lib/locale.py'}
+            elif is_python27(version):
+                patch_dir = PATH_PATCHES_MACOSX_PYTHON27
+                patches = ['patch-Modules-posixmodule.diff']
 
             if patches or eds:
                 logger.info("Patching %s" % self.pkg.name)
